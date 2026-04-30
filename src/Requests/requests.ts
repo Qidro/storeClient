@@ -11,6 +11,30 @@ export const authorization = async () =>
     //return response;
 }
 
+export const registration = async (login: string, email: string, password: string) => {
+  const response = await fetch("https://localhost:7193/User", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      login,
+      email,
+      password,
+    }),
+  });
+
+  const data = await response.text(); // или response.json()
+
+  console.log("ответ сервера:", data);
+  if (response.ok) {
+        return data;       
+      } else {
+        return data;
+      }
+
+};
+
 export interface ConfirmEmailRequest {
   userId: string;
   token: string;
