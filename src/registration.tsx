@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { setFlagsFromString } from 'v8';
 import { registration } from './Requests/requests';
 import { useNavigate } from "react-router-dom";
-
+//import back from '/back.png';
 import { ToastContainer, toast  } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -120,10 +120,21 @@ const emailHandler = (e: React.FocusEvent<HTMLInputElement>) => {
   
    
 
-    <div className="h-screen flex items-center justify-center bg-gray-300">
+    <div
+  className="h-screen w-full flex items-center justify-center bg-cover bg-center"
+  style={{
+    backgroundImage: "url('/back.png')",
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
+    backgroundPosition: "center"
+  }}
+>
+
+
       <ToastContainer
       position="top-center"
       />
+      
       { !messageRegistr ?
       <form className=  {(!loginError && !emailError || !passwordError && !emailError  || !loginError && !passwordError) || !loginDirty && !emailDirty 
         ? 'w-100 h-90 bg-white rounded-lg p-6 shadow-md': 'w-100 h-110 bg-white rounded-lg p-6 shadow-md' }>
@@ -172,7 +183,7 @@ const emailHandler = (e: React.FocusEvent<HTMLInputElement>) => {
          type="button"
         disabled = {!formValid} className={formValid ? 'mt-6 bg-blue-500 text-white w-full py-2 px-4 rounded-lg hover ': 'mt-6 bg-gray-500 text-white w-full py-2 px-4 rounded-lg hover' }
         onClick={registrationClick}
-        >Авторизоваться</button>
+        >Зарегестрироваться</button>
       </form>
     :  
       <div className="max-w-md mx-auto p-6 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl shadow-sm text-center">

@@ -5,7 +5,7 @@ import { setFlagsFromString } from 'v8';
 import { authorization } from './Requests/requests';
 import { useNavigate } from 'react-router-dom';
 import Cookies from "js-cookie";
-
+import { ToastContainer, toast  } from "react-toastify";
 function Authorization() {
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
@@ -96,10 +96,12 @@ function Authorization() {
    const answerServer = await authorization(login, password);
    if(answerServer == "Пользователь не найден")
    {
+     toast(answerServer);
       console.log("пользователь не найден");
    }
    else if(answerServer == "Неверный пароль")
    {
+    toast(answerServer);
     console.log("неверный пароль");
    }
    else
@@ -115,7 +117,18 @@ function Authorization() {
   
    
 
-    <div className="h-screen flex items-center justify-center bg-gray-300">
+    <div
+  className="h-screen w-full flex items-center justify-center bg-cover bg-center"
+  style={{
+    backgroundImage: "url('/back.png')",
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
+    backgroundPosition: "center"
+  }}
+>
+    <ToastContainer
+      position="top-center"
+      />
       <form className="w-100 h-80 bg-white rounded-lg p-6 shadow-md">
 
         <h1 className="text-center mb-4 font-semibold text-lg">
@@ -152,13 +165,13 @@ function Authorization() {
         disabled = {!formValid} 
         className={formValid ? 'mt-6 bg-blue-500 text-white w-full py-2 px-4 rounded-lg hover ': 'mt-6 bg-gray-500 text-white w-full py-2 px-4 rounded-lg hover' }
         onClick={handleClick}
-        >Авторизоваться</button>
+        >Войти</button>
         {/* кнопка перехода на создание аккаунта */}
         <button 
          type="button"
         className=" font-medium mt-2 bg-white text-black w-full py-2 px-4 rounded-lg border border-black hover:bg-gray-100"
         onClick={ClickReg}
-        >Создать аккаунт</button>
+        >Зарегестрироваться</button>
       </form>
   </div>
     );
