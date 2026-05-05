@@ -102,6 +102,7 @@ const emailHandler = (e: React.FocusEvent<HTMLInputElement>) => {
  const registrationClick = async() => {
     console.log("нажал кнопку")
      const registrationState = await registration(login, email, password);
+     console.log("наше значение"+registrationState);
      if(registrationState==="Пользователь зарегестрирован")
      {
         // navigate("/");
@@ -166,7 +167,7 @@ const emailHandler = (e: React.FocusEvent<HTMLInputElement>) => {
             className="w-full px-3 py-2 border border-gray-200 rounded-md bg-white focus:outline-none focus:ring-1 focus:ring-blue-500"
           />
         </div>
-
+        
         <button 
          type="button"
         disabled = {!formValid} className={formValid ? 'mt-6 bg-blue-500 text-white w-full py-2 px-4 rounded-lg hover ': 'mt-6 bg-gray-500 text-white w-full py-2 px-4 rounded-lg hover' }

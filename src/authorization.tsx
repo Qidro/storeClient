@@ -3,6 +3,8 @@ import { emitWarning } from 'process';
 import React, { useEffect, useState } from 'react';
 import { setFlagsFromString } from 'v8';
 import { authorization } from './Requests/requests';
+import { useNavigate } from 'react-router-dom';
+import Cookies from "js-cookie";
 
 function Authorization() {
     const [login, setLogin] = useState('');
@@ -12,6 +14,7 @@ function Authorization() {
     const [loginError, setLoginError] = useState("Логин не может быть пустыми");
     const [passwordError, setPasswordError] = useState("Пароль не может быть пустым");
     const [formValid, setFormValid] = useState(false);
+    const navigate = useNavigate();
   useEffect( () => 
   {
     if(loginError || passwordError)
@@ -45,7 +48,11 @@ function Authorization() {
     // }
 
   };
-
+  
+  const ClickReg = () => {
+    navigate("/registration");
+  };
+  
   const PasswordHundler = (e:  React.FocusEvent<HTMLInputElement>) =>
   {
     setPassword(e.target.value);
@@ -86,7 +93,22 @@ function Authorization() {
   }
 
   const handleClick = async() => {
-   authorization();
+   const answerServer = await authorization(login, password);
+   if(answerServer == "Пользователь не найден")
+   {
+      console.log("пользователь не найден");
+   }
+   else if(answerServer == "Неверный пароль")
+   {
+    console.log("неверный пароль");
+   }
+   else
+   {
+    console.log("все прошло успешно");
+    //записываем токен в куки
+      Cookies.set("token", answerServer);
+      navigate("/");
+   }
   };
     return (
 
@@ -94,7 +116,7 @@ function Authorization() {
    
 
     <div className="h-screen flex items-center justify-center bg-gray-300">
-      <form className="w-100 h-100 bg-white rounded-lg p-6 shadow-md">
+      <form className="w-100 h-80 bg-white rounded-lg p-6 shadow-md">
 
         <h1 className="text-center mb-4 font-semibold text-lg">
           Авторизация
@@ -124,13 +146,19 @@ function Authorization() {
           />
 
         </div>
-
+        {/* кнопка авторизации */}
         <button 
         type="button"
         disabled = {!formValid} 
         className={formValid ? 'mt-6 bg-blue-500 text-white w-full py-2 px-4 rounded-lg hover ': 'mt-6 bg-gray-500 text-white w-full py-2 px-4 rounded-lg hover' }
         onClick={handleClick}
         >Авторизоваться</button>
+        {/* кнопка перехода на создание аккаунта */}
+        <button 
+         type="button"
+        className=" font-medium mt-2 bg-white text-black w-full py-2 px-4 rounded-lg border border-black hover:bg-gray-100"
+        onClick={ClickReg}
+        >Создать аккаунт</button>
       </form>
   </div>
     );

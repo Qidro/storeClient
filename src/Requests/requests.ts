@@ -2,13 +2,27 @@
 
 
 
-
-export const authorization = async () =>
+//функция авторизации пользователя
+export const authorization = async (login: string, password: string) =>
 {
-    const response = await fetch("https://localhost:7193/WeatherForecast");
-    console.log("наши данные:");
-    console.log(response);
-    //return response;
+    const response = await fetch("https://localhost:7193/User/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      login,
+      password
+    }),
+  });
+    const data = await response.text(); // или response.json()
+
+  console.log("ответ сервера:", data);
+  if (response.ok) {
+        return data;       
+      } else {
+        return data;
+      }
 }
 
 export const registration = async (login: string, email: string, password: string) => {
